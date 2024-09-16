@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:listify_nodeapi_mongodb/services/config.dart';
 
 import '../utils/app_colors.dart';
 import '../utils/app_fonts.dart';
@@ -23,14 +24,42 @@ class _SignupScreenState extends State<SignupScreen> {
   final _passwordController = TextEditingController();
   var isObsecure = true.obs;
 
-  
+  bool _isNotValid = false;
 
+  void registerUser() async {
+    if (_emailController.text.isNotEmpty &&
+        _passwordController.text.isNotEmpty) {
+      var regBody = {
+        "email": _emailController.text,
+        "password": _passwordController.text,
+      };
 
+      var response = await http.post(Uri.parse(registration),
+          headers: {"Content-Type": "application/json"},
+          body: jsonEncode(regBody));
+
+      var jsonresponse = jsonDecode(response.body);
+      print(jsonresponse['status']);
+
+      if (jsonresponse['status'] == true) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Sucessfully Registerd')));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => LoginScreen()));
+      } else {
+        print('erro signin');
+      }
+    } else {
+      setState(() {
+        _isNotValid = true;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       backgroundColor: Color(0xFF371733),
+      backgroundColor: Color(0xFF371733),
       body: LayoutBuilder(
         builder: (context, constraints) {
           return ConstrainedBox(
@@ -45,16 +74,14 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   Container(
                     height: 200,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10)
-                    ),
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(10)),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.asset('assets/logo.png')),
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.asset('assets/logo.png')),
                   ),
                   const SizedBox(height: 20),
                   Container(
-                    
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Column(
@@ -63,17 +90,13 @@ class _SignupScreenState extends State<SignupScreen> {
                             key: formKey,
                             child: Column(
                               children: [
-                                _buildNameField(),
-                                const SizedBox(height: 20,),
                                 _buildEmailField(),
                                 const SizedBox(height: 20),
                                 _buildPasswordField(),
                                 const SizedBox(height: 40),
                                 ElevatedButton(
                                     onPressed: () {
-                                      if (formKey.currentState!.validate()){
-                                        
-                                      }
+                                      registerUser();
                                     },
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: AppColors.yellow,
@@ -199,6 +222,8 @@ class _SignupScreenState extends State<SignupScreen> {
       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
       fillColor: Colors.white,
       filled: true,
+      errorStyle: const TextStyle(color: Colors.red),
+      errorText: _isNotValid ? 'Enter Propper InFo' : null,
     );
   }
 }
