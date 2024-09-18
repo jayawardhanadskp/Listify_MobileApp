@@ -90,6 +90,8 @@ class _SignupScreenState extends State<SignupScreen> {
                             key: formKey,
                             child: Column(
                               children: [
+                                _buildNameField(),
+                                const SizedBox(height: 20,),
                                 _buildEmailField(),
                                 const SizedBox(height: 20),
                                 _buildPasswordField(),

@@ -5,6 +5,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:http/http.dart' as http;
 import 'package:listify_nodeapi_mongodb/utils/app_colors.dart';
 import '../services/config.dart';
+import '../utils/app_fonts.dart';
 
 class DashboardScreen extends StatefulWidget {
   final token;
@@ -34,7 +35,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       context: context,
       builder: (BuildContext context) {
         return Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           child: Container(
             padding: const EdgeInsets.all(10),
             color: AppColors.background,
@@ -94,16 +96,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         horizontal: 20, vertical: 18),
                     fillColor: Colors.white,
                     filled: true,
-                    
                   ),
                   maxLines: 3,
                 ),
                 const SizedBox(height: 20),
+                
                 ElevatedButton(
                   onPressed: () {
                     addTodo();
                   },
-                  child: const Text('Submit'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.yellow,
+                    foregroundColor: AppColors.white,
+                    fixedSize: const Size(200, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: Text(
+                    'Submit',
+                    style: AppFonts.normal,
+                  ),
                 ),
               ],
             ),
@@ -196,7 +209,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
       backgroundColor: const Color(0xFF371733),
       floatingActionButton: FloatingActionButton(
         onPressed: showAddTodo,
-        child: const Icon(Icons.add, color: AppColors.yellow, size: 35,),
+        child: const Icon(
+          Icons.add,
+          color: AppColors.yellow,
+          size: 35,
+        ),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -208,10 +225,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
             height: 200,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
             child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.asset('assets/logo.png')),
+              borderRadius: BorderRadius.circular(10),
+              child: Image.asset('assets/logo.png'),
+            ),
           ),
           const SizedBox(height: 20),
+          const Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: EdgeInsets.only(left: 10.0),
+                child: Text('Your List',
+                    style: TextStyle(color: Colors.white, fontSize: 25)),
+              )),
           Expanded(
             child: Container(
               margin: const EdgeInsets.all(10),
@@ -237,19 +262,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ),
                       ],
                     ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(color: AppColors.yellow, width: 2),
-                          borderRadius: BorderRadius.circular(5)),
-                      child: ListTile(
-                        leading: const Icon(
-                          Icons.task,
-                          color: AppColors.yellow,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: AppColors.yellow, width: 2),
+                            borderRadius: BorderRadius.circular(5)),
+                        child: ListTile(
+                          leading: const Icon(
+                            Icons.task,
+                            color: AppColors.yellow,
+                          ),
+                          title: Text(items![index]['title'] ?? 'No title'),
+                          subtitle:
+                              Text(items![index]['desc'] ?? 'No description'),
                         ),
-                        title: Text(items![index]['title'] ?? 'No title'),
-                        subtitle:
-                            Text(items![index]['desc'] ?? 'No description'),
                       ),
                     ),
                   );
