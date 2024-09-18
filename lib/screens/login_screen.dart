@@ -57,8 +57,9 @@ class _LoginScreenState extends State<LoginScreen> {
               token: myToken,
             ));
       } else {
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('error')),
+          const SnackBar(content: Text('error')),
         );
       }
     }
@@ -89,74 +90,61 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Image.asset('assets/logo.png')),
                   ),
                   const SizedBox(height: 20),
-                  Container(
-                    // decoration: BoxDecoration(
-                    //   borderRadius: BorderRadius.circular(10),
-                    //   color: Colors.pink[10],
-                    //   boxShadow: const [
-                    //     BoxShadow(
-                    //       blurRadius: 8,
-                    //       color: Colors.black26,
-                    //       offset: Offset(0, -3),
-                    //     ),
-                    //   ],
-                    // ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Column(
-                        children: [
-                          Form(
-                            key: formKey,
-                            child: Column(
-                              children: [
-                                _buildEmailField(),
-                                const SizedBox(height: 20),
-                                _buildPasswordField(),
-                                const SizedBox(height: 40),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    loginUser();
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColors.yellow,
-                                    foregroundColor: AppColors.white,
-                                    fixedSize: const Size(200, 50),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    'SIGN IN',
-                                    style: AppFonts.normal,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Column(
+                      children: [
+                        Form(
+                          key: formKey,
+                          child: Column(
+                            children: [
+                              _buildEmailField(),
+                              const SizedBox(height: 20),
+                              _buildPasswordField(),
+                              const SizedBox(height: 40),
+                              ElevatedButton(
+                                onPressed: () {
+                                  loginUser();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.yellow,
+                                  foregroundColor: AppColors.white,
+                                  fixedSize: const Size(200, 50),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
-                              ],
-                            ),
+                                child: Text(
+                                  'SIGN IN',
+                                  style: AppFonts.normal,
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 30),
-                          Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Don\'t have an Account?',
-                                  style: AppFonts.bodyText1white,
+                        ),
+                        const SizedBox(height: 30),
+                        Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Don\'t have an Account?',
+                                style: AppFonts.bodyText1white,
+                              ),
+                              const SizedBox(width: 0),
+                              TextButton(
+                                onPressed: () {
+                                  Get.to(() => const SignupScreen());
+                                },
+                                child: Text(
+                                  'Sign Up',
+                                  style: AppFonts.bodyText1pink,
                                 ),
-                                const SizedBox(width: 0),
-                                TextButton(
-                                  onPressed: () {
-                                    Get.to(() => const SignupScreen());
-                                  },
-                                  child: Text(
-                                    'Sign Up',
-                                    style: AppFonts.bodyText1pink,
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ],

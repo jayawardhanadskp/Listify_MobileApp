@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -43,9 +45,9 @@ class _SignupScreenState extends State<SignupScreen> {
 
       if (jsonresponse['status'] == true) {
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Sucessfully Registerd')));
+            .showSnackBar(const SnackBar(content: Text('Sucessfully Registerd')));
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => LoginScreen()));
+            context, MaterialPageRoute(builder: (context) => const LoginScreen()));
       } else {
         print('erro signin');
       }
@@ -59,7 +61,7 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF371733),
+      backgroundColor: const Color(0xFF371733),
       body: LayoutBuilder(
         builder: (context, constraints) {
           return ConstrainedBox(
@@ -81,68 +83,66 @@ class _SignupScreenState extends State<SignupScreen> {
                         child: Image.asset('assets/logo.png')),
                   ),
                   const SizedBox(height: 20),
-                  Container(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Column(
-                        children: [
-                          Form(
-                            key: formKey,
-                            child: Column(
-                              children: [
-                                _buildNameField(),
-                                const SizedBox(height: 20,),
-                                _buildEmailField(),
-                                const SizedBox(height: 20),
-                                _buildPasswordField(),
-                                const SizedBox(height: 40),
-                                ElevatedButton(
-                                    onPressed: () {
-                                      registerUser();
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: AppColors.yellow,
-                                        foregroundColor: AppColors.white,
-                                        fixedSize: const Size(200, 50),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        )),
-                                    child: Text(
-                                      'SIGN UP',
-                                      style: AppFonts.normal,
-                                    ))
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Have an Account?',
-                                  style: AppFonts.bodyText1white,
-                                ),
-                                const SizedBox(
-                                  width: 0,
-                                ),
-                                TextButton(
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Column(
+                      children: [
+                        Form(
+                          key: formKey,
+                          child: Column(
+                            children: [
+                              _buildNameField(),
+                              const SizedBox(height: 20,),
+                              _buildEmailField(),
+                              const SizedBox(height: 20),
+                              _buildPasswordField(),
+                              const SizedBox(height: 40),
+                              ElevatedButton(
                                   onPressed: () {
-                                    Get.to(const LoginScreen());
+                                    registerUser();
                                   },
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: AppColors.yellow,
+                                      foregroundColor: AppColors.white,
+                                      fixedSize: const Size(200, 50),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10),
+                                      )),
                                   child: Text(
-                                    'Sign In',
-                                    style: AppFonts.bodyText1pink,
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
+                                    'SIGN UP',
+                                    style: AppFonts.normal,
+                                  ))
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Have an Account?',
+                                style: AppFonts.bodyText1white,
+                              ),
+                              const SizedBox(
+                                width: 0,
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Get.to(const LoginScreen());
+                                },
+                                child: Text(
+                                  'Sign In',
+                                  style: AppFonts.bodyText1pink,
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ],
