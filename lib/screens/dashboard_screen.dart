@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:http/http.dart' as http;
+import 'package:listify_nodeapi_mongodb/utils/app_colors.dart';
 import '../services/config.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -33,20 +34,69 @@ class _DashboardScreenState extends State<DashboardScreen> {
       context: context,
       builder: (BuildContext context) {
         return Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           child: Container(
             padding: const EdgeInsets.all(10),
+            color: AppColors.background,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextField(
                   controller: titleController,
-                  decoration: const InputDecoration(labelText: 'Title'),
+                  decoration: InputDecoration(
+                    hintText: 'Title',
+                    hintStyle: TextStyle(color: Colors.yellow[500]),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: AppColors.yellow),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: AppColors.yellow),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: AppColors.yellow),
+                    ),
+                    disabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: AppColors.yellow),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 18),
+                    fillColor: Colors.white,
+                    filled: true,
+                  ),
                 ),
                 const SizedBox(height: 10),
                 TextField(
                   controller: discController,
-                  decoration: const InputDecoration(labelText: 'Description'),
+                  decoration: InputDecoration(
+                    hintText: 'Description',
+                    hintStyle: TextStyle(color: Colors.yellow[500]),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: AppColors.yellow),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: AppColors.yellow),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: AppColors.yellow),
+                    ),
+                    disabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: AppColors.yellow),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 18),
+                    fillColor: Colors.white,
+                    filled: true,
+                    
+                  ),
+                  maxLines: 3,
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
@@ -133,7 +183,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       if (jsonresponse['status'] == true) {
         getTodoList(userId);
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Item Deleted')));
+            .showSnackBar(const SnackBar(content: Text('Item Deleted')));
       }
     } catch (e) {
       print('Failed to fetch todos: $e');
@@ -143,14 +193,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF371733),
       floatingActionButton: FloatingActionButton(
         onPressed: showAddTodo,
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add, color: AppColors.yellow, size: 35,),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(userId),
+          const SizedBox(
+            height: 20,
+          ),
+          Container(
+            height: 200,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset('assets/logo.png')),
+          ),
+          const SizedBox(height: 20),
           Expanded(
             child: Container(
               margin: const EdgeInsets.all(10),
@@ -160,7 +221,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   return Slidable(
                     key: ValueKey(index),
                     endActionPane: ActionPane(
-                      motion: ScrollMotion(),
+                      motion: const ScrollMotion(),
                       dismissible: DismissiblePane(onDismissed: () {}),
                       children: [
                         SlidableAction(
@@ -168,6 +229,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           foregroundColor: Colors.white,
                           icon: Icons.delete,
                           label: 'Delete',
+                          borderRadius: BorderRadius.circular(5),
                           onPressed: (BuildContext context) {
                             print('Deleting: ${items![index]['_id']}');
                             deleteItem('${items![index]['_id']}');
@@ -175,9 +237,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ),
                       ],
                     ),
-                    child: Card(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: AppColors.yellow, width: 2),
+                          borderRadius: BorderRadius.circular(5)),
                       child: ListTile(
-                        leading: const Icon(Icons.task),
+                        leading: const Icon(
+                          Icons.task,
+                          color: AppColors.yellow,
+                        ),
                         title: Text(items![index]['title'] ?? 'No title'),
                         subtitle:
                             Text(items![index]['desc'] ?? 'No description'),
