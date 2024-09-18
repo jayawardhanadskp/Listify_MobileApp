@@ -13,9 +13,9 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  final String token; 
+  final String? token; 
 
-  const MyApp({super.key, required this.token});
+  const MyApp({super.key, this.token});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       ),
       home: (token != null && !JwtDecoder.isExpired(token!)) 
           ? DashboardScreen(token: token) 
-          : LoginScreen(), // Assuming you want to redirect to LoginScreen if expired or token is null
+          : LoginScreen(), 
     );
   }
 }
