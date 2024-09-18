@@ -83,8 +83,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Navigator.pop(context);
           titleController.clear();
           discController.clear();
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Added Successfully')));
-          getTodoList(userId); 
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Added Successfully')));
+          getTodoList(userId);
         } else {
           print('Error adding todo');
         }
@@ -106,10 +107,33 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
       var jsonresponse = jsonDecode(response.body);
       if (jsonresponse['status'] == true) {
-        items = jsonresponse['success']; // Adjust according to your API response
+        items = jsonresponse['success'];
         setState(() {});
       } else {
         print('Error fetching todos');
+      }
+    } catch (e) {
+      print('Failed to fetch todos: $e');
+    }
+  }
+
+  void deleteItem(id) async {
+    var regBody = {"id": id};
+
+    try {
+      var response = await http.post(
+        Uri.parse(deleteTodo),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(regBody),
+      );
+
+      var jsonresponse = jsonDecode(response.body);
+      print(jsonresponse);
+
+      if (jsonresponse['status'] == true) {
+        getTodoList(userId);
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Item Deleted')));
       }
     } catch (e) {
       print('Failed to fetch todos: $e');
@@ -145,8 +169,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           icon: Icons.delete,
                           label: 'Delete',
                           onPressed: (BuildContext context) {
-                            print('Deleting: ${items![index]}');
-                            // Implement delete functionality here
+                            print('Deleting: ${items![index]['_id']}');
+                            deleteItem('${items![index]['_id']}');
                           },
                         ),
                       ],
@@ -154,8 +178,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child: Card(
                       child: ListTile(
                         leading: const Icon(Icons.task),
-                        title: Text(items![index]['title'] ?? 'No title'), 
-                        subtitle: Text(items![index]['desc'] ?? 'No description'),
+                        title: Text(items![index]['title'] ?? 'No title'),
+                        subtitle:
+                            Text(items![index]['desc'] ?? 'No description'),
                       ),
                     ),
                   );
