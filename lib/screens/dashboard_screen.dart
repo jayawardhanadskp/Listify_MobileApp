@@ -229,14 +229,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               child: Image.asset('assets/logo.png'),
             ),
           ),
-          const SizedBox(height: 20),
-          const Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: EdgeInsets.only(left: 10.0),
-                child: Text('Your List',
-                    style: TextStyle(color: Colors.white, fontSize: 25)),
-              )),
+          
           Expanded(
             child: Container(
               margin: const EdgeInsets.all(10),
